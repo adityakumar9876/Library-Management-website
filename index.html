@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lumina Library | Your Literary Sanctuary</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="App.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="#" class="logo">Lumina<span>Library</span></a>
+            <div class="menu-toggle" id="mobile-menu">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#catalog" class="nav-link">Catalog</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#events" class="nav-link">Events</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#" class="nav-link login-btn">Login</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Discover Your Next <span>Literary Adventure</span></h1>
+                <p class="hero-subtitle">Explore our vast collection of books, from timeless classics to contemporary bestsellers.</p>
+                <div class="search-container">
+                    <input type="text" placeholder="Search books, authors, genres..." class="search-input">
+                    <button class="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+                <div class="hero-btns">
+                    <a href="#catalog" class="btn primary">Browse Catalog</a>
+                    <a href="#" class="btn secondary">Join Now</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="book-stack">
+                    <div class="book book-1"></div>
+                    <div class="book book-2"></div>
+                    <div class="book book-3"></div>
+                    <div class="book book-4"></div>
+                </div>
+            </div>
+        </div>
+        <div class="wave-divider">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-card">
+                <h3 class="stat-number" data-count="125000">0</h3>
+                <p class="stat-title">Books Available</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-count="32000">0</h3>
+                <p class="stat-title">Active Members</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-count="150">0</h3>
+                <p class="stat-title">Weekly Events</p>
+            </div>
+            <div class="stat-card">
+                <h3 class="stat-number" data-count="95">0</h3>
+                <p class="stat-title">Years Established</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catalog Section -->
+    <section class="catalog" id="catalog">
+        <div class="section-header">
+            <h2 class="section-title">Our <span>Catalog</span></h2>
+            <p class="section-subtitle">Browse our extensive collection of books across all genres</p>
+        </div>
+        <div class="catalog-container">
+            <div class="filter-sidebar">
+                <h3>Filter By</h3>
+                <div class="filter-group">
+                    <h4>Genre</h4>
+                    <ul class="filter-list">
+                        <li><a href="#" class="active">All Genres</a></li>
+                        <li><a href="#">Fiction</a></li>
+                        <li><a href="#">Non-Fiction</a></li>
+                        <li><a href="#">Mystery</a></li>
+                        <li><a href="#">Science Fiction</a></li>
+                        <li><a href="#">Fantasy</a></li>
+                        <li><a href="#">Biography</a></li>
+                        <li><a href="#">History</a></li>
+                        <li><a href="#">Romance</a></li>
+                    </ul>
+                </div>
+                <div class="filter-group">
+                    <h4>Availability</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" checked> Available Now</label>
+                        <label><input type="checkbox"> New Releases</label>
+                        <label><input type="checkbox"> Coming Soon</label>
+                    </div>
+                </div>
+                <div class="filter-group">
+                    <h4>Format</h4>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" checked> Hardcover</label>
+                        <label><input type="checkbox" checked> Paperback</label>
+                        <label><input type="checkbox"> E-book</label>
+                        <label><input type="checkbox"> Audiobook</label>
+                    </div>
+                </div>
+                <button class="apply-filters">Apply Filters</button>
+            </div>
+            <div class="catalog-grid">
+                <!-- Book cards will be dynamically loaded here -->
+                <div class="loader">
+                    <div class="book-spinner">
+                        <div class="book-spinner-page"></div>
+                        <div class="book-spinner-page"></div>
+                        <div class="book-spinner-page"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Library <span>Features</span></h2>
+            <p class="section-subtitle">Discover what makes Lumina Library special</p>
+        </div>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <h3>Extensive Collection</h3>
+                <p>Over 125,000 books across all genres, with new titles added weekly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <h3>Reading Clubs</h3>
+                <p>Join one of our 20+ book clubs catering to all interests and age groups.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop"></i>
+                </div>
+                <h3>Digital Resources</h3>
+                <p>Access e-books, audiobooks, and online databases from anywhere.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-child"></i>
+                </div>
+                <h3>Children's Programs</h3>
+                <p>Engaging storytimes and educational activities for young readers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3>Author Events</h3>
+                <p>Regular meet-and-greets, readings, and book signings with renowned authors.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-coffee"></i>
+                </div>
+                <h3>Café Lounge</h3>
+                <p>Comfortable reading spaces with a café serving artisanal coffee and snacks.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events" id="events">
+        <div class="section-header">
+            <h2 class="section-title">Upcoming <span>Events</span></h2>
+            <p class="section-subtitle">Join our literary community for these exciting events</p>
+        </div>
+        <div class="events-container">
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="day">15</span>
+                    <span class="month">Jun</span>
+                </div>
+                <div class="event-details">
+                    <h3>Author Talk: Margaret Atwood</h3>
+                    <p class="event-time"><i class="far fa-clock"></i> 6:00 PM - 8:00 PM</p>
+                    <p class="event-location"><i class="fas fa-map-marker-alt"></i> Main Reading Room</p>
+                    <p>The celebrated author discusses her latest novel and writing process.</p>
+                    <a href="#" class="event-rsvp">RSVP Now</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="day">22</span>
+                    <span class="month">Jun</span>
+                </div>
+                <div class="event-details">
+                    <h3>Poetry Night: Open Mic</h3>
+                    <p class="event-time"><i class="far fa-clock"></i> 7:00 PM - 9:00 PM</p>
+                    <p class="event-location"><i class="fas fa-map-marker-alt"></i> Community Hall</p>
+                    <p>Share your poetry or enjoy readings from local poets in a cozy atmosphere.</p>
+                    <a href="#" class="event-rsvp">RSVP Now</a>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <span class="day">05</span>
+                    <span class="month">Jul</span>
+                </div>
+                <div class="event-details">
+                    <h3>Children's Storytime: Magical Creatures</h3>
+                    <p class="event-time"><i class="far fa-clock"></i> 10:00 AM - 11:00 AM</p>
+                    <p class="event-location"><i class="fas fa-map-marker-alt"></i> Children's Wing</p>
+                    <p>Interactive story session featuring books about dragons, unicorns, and other magical beings.</p>
+                    <a href="#" class="event-rsvp">RSVP Now</a>
+                </div>
+            </div>
+        </div>
+        <div class="view-all-events">
+            <a href="#" class="btn secondary">View All Events</a>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials">
+        <div class="section-header">
+            <h2 class="section-title">What Our <span>Members Say</span></h2>
+            <p class="section-subtitle">Hear from our community of book lovers</p>
+        </div>
+        <div class="testimonials-container">
+            <div class="testimonial-slider">
+                <div class="testimonial-slide active">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="testimonial-text">Lumina Library has transformed my reading habits. The staff's recommendations are always spot-on, and the atmosphere is perfect for getting lost in a good book.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson">
+                            <div>
+                                <h4>Sarah Johnson</h4>
+                                <p class="author-title">Member since 2015</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="testimonial-text">As a writer, I find the research resources invaluable. The rare books collection is exceptional, and the librarians are incredibly knowledgeable and helpful.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+                            <div>
+                                <h4>Michael Chen</h4>
+                                <p class="author-title">Author & Member</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-slide">
+                    <div class="testimonial-content">
+                        <div class="quote-icon">
+                            <i class="fas fa-quote-left"></i>
+                        </div>
+                        <p class="testimonial-text">My kids look forward to storytime every week. The children's programs are engaging and have really fostered their love of reading. We're so grateful for this community space.</p>
+                        <div class="testimonial-author">
+                            <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Priya Patel">
+                            <div>
+                                <h4>Priya Patel</h4>
+                                <p class="author-title">Parent & Member</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="slider-btn prev"><i class="fas fa-chevron-left"></i></button>
+                <div class="slider-dots">
+                    <span class="dot active"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                </div>
+                <button class="slider-btn next"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Membership Section -->
+    <section class="membership">
+        <div class="membership-container">
+            <div class="membership-content">
+                <h2 class="membership-title">Become a <span>Member</span></h2>
+                <p class="membership-subtitle">Join our literary community and unlock all the benefits of Lumina Library</p>
+                <ul class="membership-benefits">
+                    <li><i class="fas fa-check-circle"></i> Unlimited book borrowing</li>
+                    <li><i class="fas fa-check-circle"></i> Priority access to events</li>
+                    <li><i class="fas fa-check-circle"></i> Digital resources and e-books</li>
+                    <li><i class="fas fa-check-circle"></i> Personalized reading recommendations</li>
+                    <li><i class="fas fa-check-circle"></i> Discounts at the library café</li>
+                </ul>
+                <a href="#" class="btn primary">Join Today</a>
+            </div>
+            <div class="membership-image">
+                <div class="floating-books">
+                    <div class="floating-book book-1"></div>
+                    <div class="floating-book book-2"></div>
+                    <div class="floating-book book-3"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>Lumina Library</h3>
+                <p>Your gateway to knowledge, imagination, and community since 1928.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-goodreads"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#catalog">Book Catalog</a></li>
+                    <li><a href="#events">Events</a></li>
+                    <li><a href="#">My Account</a></li>
+                    <li><a href="#">Renew Items</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Resources</h3>
+                <ul>
+                    <li><a href="#">Research Databases</a></li>
+                    <li><a href="#">E-books</a></li>
+                    <li><a href="#">Audiobooks</a></li>
+                    <li><a href="#">New Arrivals</a></li>
+                    <li><a href="#">Staff Picks</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <ul class="contact-info">
+                    <li><i class="fas fa-map-marker-alt"></i> 123 Library Lane, Bookville</li>
+                    <li><i class="fas fa-phone"></i> (555) 123-4567</li>
+                    <li><i class="fas fa-envelope"></i> info@luminalibrary.org</li>
+                    <li><i class="fas fa-clock"></i> Mon-Fri: 9am-9pm, Sat-Sun: 10am-6pm</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2023 Lumina Library. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Use</a>
+                <a href="#">Accessibility</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="login-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Member Login</h2>
+            <form class="login-form">
+                <div class="form-group">
+                    <label for="username">Username or Email</label>
+                    <input type="text" id="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn primary">Login</button>
+            </form>
+            <div class="social-login">
+                <p>Or login with</p>
+                <div class="social-btns">
+                    <a href="#" class="social-btn google"><i class="fab fa-google"></i> Google</a>
+                    <a href="#" class="social-btn facebook"><i class="fab fa-facebook-f"></i> Facebook</a>
+                </div>
+            </div>
+            <p class="signup-link">Not a member? <a href="#">Sign up now</a></p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
