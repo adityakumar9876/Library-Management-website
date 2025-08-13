@@ -1,0 +1,46 @@
+{
+  "hash": "cc55fcf1",
+  "configHash": "25577597",
+  "lockfileHash": "fda592ca",
+  "browserHash": "bc6ad02b",
+  "optimized": {
+    "react": {
+      "src": "../../react/index.js",
+      "file": "react.js",
+      "fileHash": "ade1df27",
+      "needsInterop": true
+    },
+    "react-dom": {
+      "src": "../../react-dom/index.js",
+      "file": "react-dom.js",
+      "fileHash": "f067054b",
+      "needsInterop": true
+    },
+    "react/jsx-dev-runtime": {
+      "src": "../../react/jsx-dev-runtime.js",
+      "file": "react_jsx-dev-runtime.js",
+      "fileHash": "c29f1c65",
+      "needsInterop": true
+    },
+    "react/jsx-runtime": {
+      "src": "../../react/jsx-runtime.js",
+      "file": "react_jsx-runtime.js",
+      "fileHash": "254c5749",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "7a36be0b",
+      "needsInterop": true
+    }
+  },
+  "chunks": {
+    "chunk-KBNVMJOC": {
+      "file": "chunk-KBNVMJOC.js"
+    },
+    "chunk-UBDIXFPO": {
+      "file": "chunk-UBDIXFPO.js"
+    }
+  }
+}
