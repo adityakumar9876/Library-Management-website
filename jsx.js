@@ -3,124 +3,45 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.JSXAttribute = JSXAttribute;
-exports.JSXClosingElement = JSXClosingElement;
-exports.JSXClosingFragment = JSXClosingFragment;
-exports.JSXElement = JSXElement;
-exports.JSXEmptyExpression = JSXEmptyExpression;
-exports.JSXExpressionContainer = JSXExpressionContainer;
-exports.JSXFragment = JSXFragment;
-exports.JSXIdentifier = JSXIdentifier;
-exports.JSXMemberExpression = JSXMemberExpression;
-exports.JSXNamespacedName = JSXNamespacedName;
-exports.JSXOpeningElement = JSXOpeningElement;
-exports.JSXOpeningFragment = JSXOpeningFragment;
-exports.JSXSpreadAttribute = JSXSpreadAttribute;
-exports.JSXSpreadChild = JSXSpreadChild;
-exports.JSXText = JSXText;
-function JSXAttribute(node) {
-  this.print(node.name);
-  if (node.value) {
-    this.tokenChar(61);
-    this.print(node.value);
+exports.default = _createRawReactElement;
+var REACT_ELEMENT_TYPE;
+function _createRawReactElement(type, props, key, children) {
+  if (!REACT_ELEMENT_TYPE) {
+    REACT_ELEMENT_TYPE = typeof Symbol === "function" && Symbol["for"] && Symbol["for"]("react.element") || 0xeac7;
   }
-}
-function JSXIdentifier(node) {
-  this.word(node.name);
-}
-function JSXNamespacedName(node) {
-  this.print(node.namespace);
-  this.tokenChar(58);
-  this.print(node.name);
-}
-function JSXMemberExpression(node) {
-  this.print(node.object);
-  this.tokenChar(46);
-  this.print(node.property);
-}
-function JSXSpreadAttribute(node) {
-  this.tokenChar(123);
-  this.token("...");
-  this.print(node.argument);
-  this.rightBrace(node);
-}
-function JSXExpressionContainer(node) {
-  this.tokenChar(123);
-  this.print(node.expression);
-  this.rightBrace(node);
-}
-function JSXSpreadChild(node) {
-  this.tokenChar(123);
-  this.token("...");
-  this.print(node.expression);
-  this.rightBrace(node);
-}
-function JSXText(node) {
-  const raw = this.getPossibleRaw(node);
-  if (raw !== undefined) {
-    this.token(raw, true);
-  } else {
-    this.token(node.value, true);
+  var defaultProps = type && type.defaultProps;
+  var childrenLength = arguments.length - 3;
+  if (!props && childrenLength !== 0) {
+    props = {
+      children: void 0
+    };
   }
-}
-function JSXElement(node) {
-  const open = node.openingElement;
-  this.print(open);
-  if (open.selfClosing) return;
-  this.indent();
-  for (const child of node.children) {
-    this.print(child);
-  }
-  this.dedent();
-  this.print(node.closingElement);
-}
-function spaceSeparator() {
-  this.space();
-}
-function JSXOpeningElement(node) {
-  this.tokenChar(60);
-  this.print(node.name);
-  {
-    if (node.typeArguments) {
-      this.print(node.typeArguments);
+  if (childrenLength === 1) {
+    props.children = children;
+  } else if (childrenLength > 1) {
+    var childArray = new Array(childrenLength);
+    for (var i = 0; i < childrenLength; i++) {
+      childArray[i] = arguments[i + 3];
     }
-    this.print(node.typeParameters);
+    props.children = childArray;
   }
-  if (node.attributes.length > 0) {
-    this.space();
-    this.printJoin(node.attributes, undefined, undefined, spaceSeparator);
+  if (props && defaultProps) {
+    for (var propName in defaultProps) {
+      if (props[propName] === void 0) {
+        props[propName] = defaultProps[propName];
+      }
+    }
+  } else if (!props) {
+    props = defaultProps || {};
   }
-  if (node.selfClosing) {
-    this.space();
-    this.tokenChar(47);
-  }
-  this.tokenChar(62);
-}
-function JSXClosingElement(node) {
-  this.tokenChar(60);
-  this.tokenChar(47);
-  this.print(node.name);
-  this.tokenChar(62);
-}
-function JSXEmptyExpression() {
-  this.printInnerComments();
-}
-function JSXFragment(node) {
-  this.print(node.openingFragment);
-  this.indent();
-  for (const child of node.children) {
-    this.print(child);
-  }
-  this.dedent();
-  this.print(node.closingFragment);
-}
-function JSXOpeningFragment() {
-  this.tokenChar(60);
-  this.tokenChar(62);
-}
-function JSXClosingFragment() {
-  this.token("</");
-  this.tokenChar(62);
+  return {
+    $$typeof: REACT_ELEMENT_TYPE,
+    type: type,
+    key: key === undefined ? null : "" + key,
+    ref: null,
+    props: props,
+    _owner: null
+  };
 }
 
 //# sourceMappingURL=jsx.js.map
