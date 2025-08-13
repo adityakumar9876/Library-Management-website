@@ -3,89 +3,75 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createConfigItem = createConfigItem;
-exports.createConfigItemAsync = createConfigItemAsync;
-exports.createConfigItemSync = createConfigItemSync;
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _full.default;
-  }
-});
-exports.loadOptions = loadOptions;
-exports.loadOptionsAsync = loadOptionsAsync;
-exports.loadOptionsSync = loadOptionsSync;
-exports.loadPartialConfig = loadPartialConfig;
-exports.loadPartialConfigAsync = loadPartialConfigAsync;
-exports.loadPartialConfigSync = loadPartialConfigSync;
-function _gensync() {
-  const data = require("gensync");
-  _gensync = function () {
+exports.default = parser;
+function _parser() {
+  const data = require("@babel/parser");
+  _parser = function () {
     return data;
   };
   return data;
 }
-var _full = require("./full.js");
-var _partial = require("./partial.js");
-var _item = require("./item.js");
-var _rewriteStackTrace = require("../errors/rewrite-stack-trace.js");
-const loadPartialConfigRunner = _gensync()(_partial.loadPartialConfig);
-function loadPartialConfigAsync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.async)(...args);
+function _codeFrame() {
+  const data = require("@babel/code-frame");
+  _codeFrame = function () {
+    return data;
+  };
+  return data;
 }
-function loadPartialConfigSync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.sync)(...args);
-}
-function loadPartialConfig(opts, callback) {
-  if (callback !== undefined) {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.errback)(opts, callback);
-  } else if (typeof opts === "function") {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(loadPartialConfigRunner.errback)(undefined, opts);
-  } else {
-    {
-      return loadPartialConfigSync(opts);
+var _missingPluginHelper = require("./util/missing-plugin-helper.js");
+function* parser(pluginPasses, {
+  parserOpts,
+  highlightCode = true,
+  filename = "unknown"
+}, code) {
+  try {
+    const results = [];
+    for (const plugins of pluginPasses) {
+      for (const plugin of plugins) {
+        const {
+          parserOverride
+        } = plugin;
+        if (parserOverride) {
+          const ast = parserOverride(code, parserOpts, _parser().parse);
+          if (ast !== undefined) results.push(ast);
+        }
+      }
     }
-  }
-}
-function* loadOptionsImpl(opts) {
-  var _config$options;
-  const config = yield* (0, _full.default)(opts);
-  return (_config$options = config == null ? void 0 : config.options) != null ? _config$options : null;
-}
-const loadOptionsRunner = _gensync()(loadOptionsImpl);
-function loadOptionsAsync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.async)(...args);
-}
-function loadOptionsSync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.sync)(...args);
-}
-function loadOptions(opts, callback) {
-  if (callback !== undefined) {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.errback)(opts, callback);
-  } else if (typeof opts === "function") {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(loadOptionsRunner.errback)(undefined, opts);
-  } else {
-    {
-      return loadOptionsSync(opts);
+    if (results.length === 0) {
+      return (0, _parser().parse)(code, parserOpts);
+    } else if (results.length === 1) {
+      yield* [];
+      if (typeof results[0].then === "function") {
+        throw new Error(`You appear to be using an async parser plugin, ` + `which your current version of Babel does not support. ` + `If you're using a published plugin, you may need to upgrade ` + `your @babel/core version.`);
+      }
+      return results[0];
     }
-  }
-}
-const createConfigItemRunner = _gensync()(_item.createConfigItem);
-function createConfigItemAsync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.async)(...args);
-}
-function createConfigItemSync(...args) {
-  return (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.sync)(...args);
-}
-function createConfigItem(target, options, callback) {
-  if (callback !== undefined) {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.errback)(target, options, callback);
-  } else if (typeof options === "function") {
-    (0, _rewriteStackTrace.beginHiddenCallStack)(createConfigItemRunner.errback)(target, undefined, callback);
-  } else {
-    {
-      return createConfigItemSync(target, options);
+    throw new Error("More than one plugin attempted to override parsing.");
+  } catch (err) {
+    if (err.code === "BABEL_PARSER_SOURCETYPE_MODULE_REQUIRED") {
+      err.message += "\nConsider renaming the file to '.mjs', or setting sourceType:module " + "or sourceType:unambiguous in your Babel config for this file.";
     }
+    const {
+      loc,
+      missingPlugin
+    } = err;
+    if (loc) {
+      const codeFrame = (0, _codeFrame().codeFrameColumns)(code, {
+        start: {
+          line: loc.line,
+          column: loc.column + 1
+        }
+      }, {
+        highlightCode
+      });
+      if (missingPlugin) {
+        err.message = `${filename}: ` + (0, _missingPluginHelper.default)(missingPlugin[0], loc, codeFrame, filename);
+      } else {
+        err.message = `${filename}: ${err.message}\n\n` + codeFrame;
+      }
+      err.code = "BABEL_PARSE_ERROR";
+    }
+    throw err;
   }
 }
 0 && 0;
