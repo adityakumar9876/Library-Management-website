@@ -1,19 +1,19 @@
-# @babel/helper-plugin-utils
+# @babel/helpers
 
-> General utilities for plugins to use
+> Collection of helper functions used by Babel transforms.
 
-See our website [@babel/helper-plugin-utils](https://babeljs.io/docs/babel-helper-plugin-utils) for more information.
+See our website [@babel/helpers](https://babeljs.io/docs/babel-helpers) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/helper-plugin-utils
+npm install --save-dev @babel/helpers
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/helper-plugin-utils
+yarn add @babel/helpers --dev
 ```
