@@ -1,19 +1,19 @@
-# @babel/helper-validator-identifier
+# @babel/helper-validator-option
 
-> Validate identifier/keywords name
+> Validate plugin/preset options
 
-See our website [@babel/helper-validator-identifier](https://babeljs.io/docs/babel-helper-validator-identifier) for more information.
+See our website [@babel/helper-validator-option](https://babeljs.io/docs/babel-helper-validator-option) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/helper-validator-identifier
+npm install --save @babel/helper-validator-option
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/helper-validator-identifier
+yarn add @babel/helper-validator-option
 ```
