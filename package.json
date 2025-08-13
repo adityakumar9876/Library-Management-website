@@ -1,25 +1,17 @@
 {
-  "name": "@babel/helper-string-parser",
+  "name": "@babel/helper-validator-identifier",
   "version": "7.27.1",
-  "description": "A utility package to parse strings",
+  "description": "Validate identifier/keywords name",
   "repository": {
     "type": "git",
     "url": "https://github.com/babel/babel.git",
-    "directory": "packages/babel-helper-string-parser"
+    "directory": "packages/babel-helper-validator-identifier"
   },
-  "homepage": "https://babel.dev/docs/en/next/babel-helper-string-parser",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
   "main": "./lib/index.js",
-  "devDependencies": {
-    "charcodes": "^0.2.0"
-  },
-  "engines": {
-    "node": ">=6.9.0"
-  },
-  "author": "The Babel Team (https://babel.dev/team)",
   "exports": {
     ".": {
       "types": "./lib/index.d.ts",
@@ -27,5 +19,13 @@
     },
     "./package.json": "./package.json"
   },
+  "devDependencies": {
+    "@unicode/unicode-16.0.0": "^1.0.0",
+    "charcodes": "^0.2.0"
+  },
+  "engines": {
+    "node": ">=6.9.0"
+  },
+  "author": "The Babel Team (https://babel.dev/team)",
   "type": "commonjs"
 }
