@@ -3,120 +3,110 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.TokenContext = void 0;
-exports.isLastChild = isLastChild;
-exports.needsParens = needsParens;
-exports.needsWhitespace = needsWhitespace;
-exports.needsWhitespaceAfter = needsWhitespaceAfter;
-exports.needsWhitespaceBefore = needsWhitespaceBefore;
-var whitespace = require("./whitespace.js");
-var parens = require("./parentheses.js");
-var _t = require("@babel/types");
-const {
-  FLIPPED_ALIAS_KEYS,
-  VISITOR_KEYS,
-  isCallExpression,
-  isDecorator,
-  isExpressionStatement,
-  isMemberExpression,
-  isNewExpression,
-  isParenthesizedExpression
-} = _t;
-const TokenContext = exports.TokenContext = {
-  normal: 0,
-  expressionStatement: 1,
-  arrowBody: 2,
-  exportDefault: 4,
-  arrowFlowReturnType: 8,
-  forInitHead: 16,
-  forInHead: 32,
-  forOfHead: 64,
-  forInOrInitHeadAccumulate: 128,
-  forInOrInitHeadAccumulatePassThroughMask: 128
-};
-function expandAliases(obj) {
-  const map = new Map();
-  function add(type, func) {
-    const fn = map.get(type);
-    map.set(type, fn ? function (node, parent, stack, getRawIdentifier) {
-      var _fn;
-      return (_fn = fn(node, parent, stack, getRawIdentifier)) != null ? _fn : func(node, parent, stack, getRawIdentifier);
-    } : func);
-  }
-  for (const type of Object.keys(obj)) {
-    const aliases = FLIPPED_ALIAS_KEYS[type];
-    if (aliases) {
-      for (const alias of aliases) {
-        add(alias, obj[type]);
-      }
-    } else {
-      add(type, obj[type]);
+exports.default = void 0;
+exports.generate = generate;
+var _sourceMap = require("./source-map.js");
+var _printer = require("./printer.js");
+function normalizeOptions(code, opts, ast) {
+  if (opts.experimental_preserveFormat) {
+    if (typeof code !== "string") {
+      throw new Error("`experimental_preserveFormat` requires the original `code` to be passed to @babel/generator as a string");
+    }
+    if (!opts.retainLines) {
+      throw new Error("`experimental_preserveFormat` requires `retainLines` to be set to `true`");
+    }
+    if (opts.compact && opts.compact !== "auto") {
+      throw new Error("`experimental_preserveFormat` is not compatible with the `compact` option");
+    }
+    if (opts.minified) {
+      throw new Error("`experimental_preserveFormat` is not compatible with the `minified` option");
+    }
+    if (opts.jsescOption) {
+      throw new Error("`experimental_preserveFormat` is not compatible with the `jsescOption` option");
+    }
+    if (!Array.isArray(ast.tokens)) {
+      throw new Error("`experimental_preserveFormat` requires the AST to have attatched the token of the input code. Make sure to enable the `tokens: true` parser option.");
     }
   }
-  return map;
-}
-const expandedParens = expandAliases(parens);
-const expandedWhitespaceNodes = expandAliases(whitespace.nodes);
-function isOrHasCallExpression(node) {
-  if (isCallExpression(node)) {
-    return true;
+  const format = {
+    auxiliaryCommentBefore: opts.auxiliaryCommentBefore,
+    auxiliaryCommentAfter: opts.auxiliaryCommentAfter,
+    shouldPrintComment: opts.shouldPrintComment,
+    preserveFormat: opts.experimental_preserveFormat,
+    retainLines: opts.retainLines,
+    retainFunctionParens: opts.retainFunctionParens,
+    comments: opts.comments == null || opts.comments,
+    compact: opts.compact,
+    minified: opts.minified,
+    concise: opts.concise,
+    indent: {
+      adjustMultilineComment: true,
+      style: "  "
+    },
+    jsescOption: Object.assign({
+      quotes: "double",
+      wrap: true,
+      minimal: false
+    }, opts.jsescOption),
+    topicToken: opts.topicToken,
+    importAttributesKeyword: opts.importAttributesKeyword
+  };
+  {
+    var _opts$recordAndTupleS;
+    format.decoratorsBeforeExport = opts.decoratorsBeforeExport;
+    format.jsescOption.json = opts.jsonCompatibleStrings;
+    format.recordAndTupleSyntaxType = (_opts$recordAndTupleS = opts.recordAndTupleSyntaxType) != null ? _opts$recordAndTupleS : "hash";
   }
-  return isMemberExpression(node) && isOrHasCallExpression(node.object);
-}
-function needsWhitespace(node, parent, type) {
-  var _expandedWhitespaceNo;
-  if (!node) return false;
-  if (isExpressionStatement(node)) {
-    node = node.expression;
+  if (format.minified) {
+    format.compact = true;
+    format.shouldPrintComment = format.shouldPrintComment || (() => format.comments);
+  } else {
+    format.shouldPrintComment = format.shouldPrintComment || (value => format.comments || value.includes("@license") || value.includes("@preserve"));
   }
-  const flag = (_expandedWhitespaceNo = expandedWhitespaceNodes.get(node.type)) == null ? void 0 : _expandedWhitespaceNo(node, parent);
-  if (typeof flag === "number") {
-    return (flag & type) !== 0;
-  }
-  return false;
-}
-function needsWhitespaceBefore(node, parent) {
-  return needsWhitespace(node, parent, 1);
-}
-function needsWhitespaceAfter(node, parent) {
-  return needsWhitespace(node, parent, 2);
-}
-function needsParens(node, parent, tokenContext, getRawIdentifier) {
-  var _expandedParens$get;
-  if (!parent) return false;
-  if (isNewExpression(parent) && parent.callee === node) {
-    if (isOrHasCallExpression(node)) return true;
-  }
-  if (isDecorator(parent)) {
-    return !isDecoratorMemberExpression(node) && !(isCallExpression(node) && isDecoratorMemberExpression(node.callee)) && !isParenthesizedExpression(node);
-  }
-  return (_expandedParens$get = expandedParens.get(node.type)) == null ? void 0 : _expandedParens$get(node, parent, tokenContext, getRawIdentifier);
-}
-function isDecoratorMemberExpression(node) {
-  switch (node.type) {
-    case "Identifier":
-      return true;
-    case "MemberExpression":
-      return !node.computed && node.property.type === "Identifier" && isDecoratorMemberExpression(node.object);
-    default:
-      return false;
-  }
-}
-function isLastChild(parent, child) {
-  const visitorKeys = VISITOR_KEYS[parent.type];
-  for (let i = visitorKeys.length - 1; i >= 0; i--) {
-    const val = parent[visitorKeys[i]];
-    if (val === child) {
-      return true;
-    } else if (Array.isArray(val)) {
-      let j = val.length - 1;
-      while (j >= 0 && val[j] === null) j--;
-      return j >= 0 && val[j] === child;
-    } else if (val) {
-      return false;
+  if (format.compact === "auto") {
+    format.compact = typeof code === "string" && code.length > 500000;
+    if (format.compact) {
+      console.error("[BABEL] Note: The code generator has deoptimised the styling of " + `${opts.filename} as it exceeds the max of ${"500KB"}.`);
     }
   }
-  return false;
+  if (format.compact || format.preserveFormat) {
+    format.indent.adjustMultilineComment = false;
+  }
+  const {
+    auxiliaryCommentBefore,
+    auxiliaryCommentAfter,
+    shouldPrintComment
+  } = format;
+  if (auxiliaryCommentBefore && !shouldPrintComment(auxiliaryCommentBefore)) {
+    format.auxiliaryCommentBefore = undefined;
+  }
+  if (auxiliaryCommentAfter && !shouldPrintComment(auxiliaryCommentAfter)) {
+    format.auxiliaryCommentAfter = undefined;
+  }
+  return format;
 }
+{
+  exports.CodeGenerator = class CodeGenerator {
+    constructor(ast, opts = {}, code) {
+      this._ast = void 0;
+      this._format = void 0;
+      this._map = void 0;
+      this._ast = ast;
+      this._format = normalizeOptions(code, opts, ast);
+      this._map = opts.sourceMaps ? new _sourceMap.default(opts, code) : null;
+    }
+    generate() {
+      const printer = new _printer.default(this._format, this._map);
+      return printer.generate(this._ast);
+    }
+  };
+}
+function generate(ast, opts = {}, code) {
+  const format = normalizeOptions(code, opts, ast);
+  const map = opts.sourceMaps ? new _sourceMap.default(opts, code) : null;
+  const printer = new _printer.default(format, map, ast.tokens, typeof code === "string" ? code : null);
+  return printer.generate(ast);
+}
+var _default = exports.default = generate;
 
 //# sourceMappingURL=index.js.map
