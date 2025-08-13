@@ -1,37 +1,40 @@
 {
-  "name": "@babel/generator",
-  "version": "7.28.0",
-  "description": "Turns an AST into code.",
+  "name": "@babel/helper-compilation-targets",
+  "version": "7.27.2",
   "author": "The Babel Team (https://babel.dev/team)",
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
+  "description": "Helper functions on Babel compilation targets",
   "repository": {
     "type": "git",
     "url": "https://github.com/babel/babel.git",
-    "directory": "packages/babel-generator"
+    "directory": "packages/babel-helper-compilation-targets"
   },
-  "homepage": "https://babel.dev/docs/en/next/babel-generator",
-  "bugs": "https://github.com/babel/babel/issues?utf8=%E2%9C%93&q=is%3Aissue+label%3A%22pkg%3A%20generator%22+is%3Aopen",
   "main": "./lib/index.js",
-  "files": [
-    "lib"
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "babel",
+    "babel-plugin"
   ],
   "dependencies": {
-    "@babel/parser": "^7.28.0",
-    "@babel/types": "^7.28.0",
-    "@jridgewell/gen-mapping": "^0.3.12",
-    "@jridgewell/trace-mapping": "^0.3.28",
-    "jsesc": "^3.0.2"
+    "@babel/compat-data": "^7.27.2",
+    "@babel/helper-validator-option": "^7.27.1",
+    "browserslist": "^4.24.0",
+    "lru-cache": "^5.1.1",
+    "semver": "^6.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
-    "@babel/helper-fixtures": "^7.28.0",
-    "@babel/plugin-transform-typescript": "^7.28.0",
-    "@jridgewell/sourcemap-codec": "^1.5.3",
-    "@types/jsesc": "^2.5.0",
-    "charcodes": "^0.2.0"
+    "@babel/helper-plugin-test-runner": "^7.27.1",
+    "@types/lru-cache": "^5.1.1",
+    "@types/semver": "^5.5.0"
   },
   "engines": {
     "node": ">=6.9.0"
