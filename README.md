@@ -1,19 +1,19 @@
-# @babel/helper-compilation-targets
+# @babel/helper-globals
 
-> Helper functions on Babel compilation targets
+> A collection of JavaScript globals for Babel internal usage
 
-See our website [@babel/helper-compilation-targets](https://babeljs.io/docs/babel-helper-compilation-targets) for more information.
+See our website [@babel/helper-globals](https://babeljs.io/docs/babel-helper-globals) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save @babel/helper-compilation-targets
+npm install --save @babel/helper-globals
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/helper-compilation-targets
+yarn add @babel/helper-globals
 ```
