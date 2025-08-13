@@ -1,19 +1,19 @@
-# @babel/helpers
+# @babel/helper-string-parser
 
-> Collection of helper functions used by Babel transforms.
+> A utility package to parse strings
 
-See our website [@babel/helpers](https://babeljs.io/docs/babel-helpers) for more information.
+See our website [@babel/helper-string-parser](https://babeljs.io/docs/babel-helper-string-parser) for more information.
 
 ## Install
 
 Using npm:
 
 ```sh
-npm install --save-dev @babel/helpers
+npm install --save @babel/helper-string-parser
 ```
 
 or using yarn:
 
 ```sh
-yarn add @babel/helpers --dev
+yarn add @babel/helper-string-parser
 ```
