@@ -1,77 +1,104 @@
-# flat-cache
+# fast-levenshtein - Levenshtein algorithm in Javascript
 
-> A stupidly simple key/value storage using files to persist the data
+[![Build Status](https://secure.travis-ci.org/hiddentao/fast-levenshtein.png)](http://travis-ci.org/hiddentao/fast-levenshtein)
+[![NPM module](https://badge.fury.io/js/fast-levenshtein.png)](https://badge.fury.io/js/fast-levenshtein)
+[![NPM downloads](https://img.shields.io/npm/dm/fast-levenshtein.svg?maxAge=2592000)](https://www.npmjs.com/package/fast-levenshtein)
+[![Follow on Twitter](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&label=Follow&maxAge=2592000)](https://twitter.com/hiddentao)
 
-[![NPM Version](https://img.shields.io/npm/v/flat-cache.svg?style=flat)](https://npmjs.org/package/flat-cache)
-[![tests](https://github.com/jaredwray/flat-cache/actions/workflows/tests.yaml/badge.svg?branch=master)](https://github.com/jaredwray/flat-cache/actions/workflows/tests.yaml)
-[![codecov](https://codecov.io/github/jaredwray/flat-cache/branch/master/graph/badge.svg?token=KxR95XT3NF)](https://codecov.io/github/jaredwray/flat-cache)
-[![npm](https://img.shields.io/npm/dm/flat-cache)](https://npmjs.com/package/flat-cache)
+An efficient Javascript implementation of the [Levenshtein algorithm](http://en.wikipedia.org/wiki/Levenshtein_distance) with locale-specific collator support.
 
-## install
+## Features
+
+* Works in node.js and in the browser.
+* Better performance than other implementations by not needing to store the whole matrix ([more info](http://www.codeproject.com/Articles/13525/Fast-memory-efficient-Levenshtein-algorithm)).
+* Locale-sensitive string comparisions if needed.
+* Comprehensive test suite and performance benchmark.
+* Small: <1 KB minified and gzipped
+
+## Installation
+
+### node.js
+
+Install using [npm](http://npmjs.org/):
 
 ```bash
-npm i --save flat-cache
+$ npm install fast-levenshtein
 ```
 
-## Usage
+### Browser
 
-```js
-const flatCache = require('flat-cache');
-// loads the cache, if one does not exists for the given
-// Id a new one will be prepared to be created
-const cache = flatCache.load('cacheId');
+Using bower:
 
-// sets a key on the cache
-cache.setKey('key', { foo: 'var' });
-
-// get a key from the cache
-cache.getKey('key'); // { foo: 'var' }
-
-// fetch the entire persisted object
-cache.all(); // { 'key': { foo: 'var' } }
-
-// remove a key
-cache.removeKey('key'); // removes a key from the cache
-
-// save it to disk
-cache.save(); // very important, if you don't save no changes will be persisted.
-// cache.save( true /* noPrune */) // can be used to prevent the removal of non visited keys
-
-// loads the cache from a given directory, if one does
-// not exists for the given Id a new one will be prepared to be created
-const cache = flatCache.load('cacheId', path.resolve('./path/to/folder'));
-
-// The following methods are useful to clear the cache
-// delete a given cache
-flatCache.clearCacheById('cacheId'); // removes the cacheId document if one exists.
-
-// delete all cache
-flatCache.clearAll(); // remove the cache directory
+```bash
+$ bower install fast-levenshtein
 ```
 
-## Motivation for this module
+If you are not using any module loader system then the API will then be accessible via the `window.Levenshtein` object.
 
-I needed a super simple and dumb **in-memory cache** with optional disk persistance in order to make
-a script that will beutify files with `esformatter` only execute on the files that were changed since the last run.
-To make that possible we need to store the `fileSize` and `modificationTime` of the files. So a simple `key/value`
-storage was needed and Bam! this module was born.
+## Examples
 
-## Important notes
+**Default usage**
 
-- If no directory is especified when the `load` method is called, a folder named `.cache` will be created
-  inside the module directory when `cache.save` is called. If you're committing your `node_modules` to any vcs, you
-  might want to ignore the default `.cache` folder, or specify a custom directory.
-- The values set on the keys of the cache should be `stringify-able` ones, meaning no circular references
-- All the changes to the cache state are done to memory
-- I could have used a timer or `Object.observe` to deliver the changes to disk, but I wanted to keep this module
-  intentionally dumb and simple
-- Non visited keys are removed when `cache.save()` is called. If this is not desired, you can pass `true` to the save call
-  like: `cache.save( true /* noPrune */ )`.
+```javascript
+var levenshtein = require('fast-levenshtein');
+
+var distance = levenshtein.get('back', 'book');   // 2
+var distance = levenshtein.get('我愛你', '我叫你');   // 1
+```
+
+**Locale-sensitive string comparisons**
+
+It supports using [Intl.Collator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Collator) for locale-sensitive  string comparisons:
+
+```javascript
+var levenshtein = require('fast-levenshtein');
+
+levenshtein.get('mikailovitch', 'Mikhaïlovitch', { useCollator: true});
+// 1
+```
+
+## Building and Testing
+
+To build the code and run the tests:
+
+```bash
+$ npm install -g grunt-cli
+$ npm install
+$ npm run build
+```
+
+## Performance
+
+_Thanks to [Titus Wormer](https://github.com/wooorm) for [encouraging me](https://github.com/hiddentao/fast-levenshtein/issues/1) to do this._
+
+Benchmarked against other node.js levenshtein distance modules (on Macbook Air 2012, Core i7, 8GB RAM):
+
+```bash
+Running suite Implementation comparison [benchmark/speed.js]...
+>> levenshtein-edit-distance x 234 ops/sec ±3.02% (73 runs sampled)
+>> levenshtein-component x 422 ops/sec ±4.38% (83 runs sampled)
+>> levenshtein-deltas x 283 ops/sec ±3.83% (78 runs sampled)
+>> natural x 255 ops/sec ±0.76% (88 runs sampled)
+>> levenshtein x 180 ops/sec ±3.55% (86 runs sampled)
+>> fast-levenshtein x 1,792 ops/sec ±2.72% (95 runs sampled)
+Benchmark done.
+Fastest test is fast-levenshtein at 4.2x faster than levenshtein-component
+```
+
+You can run this benchmark yourself by doing:
+
+```bash
+$ npm install
+$ npm run build
+$ npm run benchmark
+```
+
+## Contributing
+
+If you wish to submit a pull request please update and/or create new tests for any changes you make and ensure the grunt build passes.
+
+See [CONTRIBUTING.md](https://github.com/hiddentao/fast-levenshtein/blob/master/CONTRIBUTING.md) for details.
 
 ## License
 
-MIT
-
-## Changelog
-
-[changelog](./changelog.md)
+MIT - see [LICENSE.md](https://github.com/hiddentao/fast-levenshtein/blob/master/LICENSE.md)
