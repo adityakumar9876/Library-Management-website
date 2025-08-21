@@ -1,63 +1,39 @@
 {
-  "name": "flat-cache",
-  "version": "4.0.1",
-  "description": "A stupidly simple key/value storage using files to persist some data",
-  "repository": "jaredwray/flat-cache",
-  "license": "MIT",
-  "author": {
-    "name": "Jared Wray",
-    "url": "https://jaredwray.com"
-  },
-  "main": "src/cache.js",
+  "name": "fast-levenshtein",
+  "version": "2.0.6",
+  "description": "Efficient implementation of Levenshtein algorithm  with locale-specific collator support.",
+  "main": "levenshtein.js",
   "files": [
-    "src/cache.js",
-    "src/del.js",
-    "src/utils.js"
-  ],
-  "engines": {
-    "node": ">=16"
-  },
-  "precommit": [
-    "npm run verify --silent"
-  ],
-  "prepush": [
-    "npm run verify --silent"
+    "levenshtein.js"
   ],
   "scripts": {
-    "eslint": "eslint --cache --cache-location=node_modules/.cache/ ./src/**/*.js ./test/**/*.js",
-    "clean": "rimraf ./node_modules ./package-lock.json ./yarn.lock ./coverage",
-    "eslint-fix": "npm run eslint -- --fix",
-    "autofix": "npm run eslint-fix",
-    "check": "npm run eslint",
-    "verify": "npm run eslint && npm run test:cache",
-    "test:cache": "c8 mocha -R spec test/specs",
-    "test:ci:cache": "c8 --reporter=lcov mocha -R spec test/specs",
-    "test": "npm run verify --silent",
-    "format": "prettier --write ."
+    "build": "grunt build",
+    "prepublish": "npm run build",
+    "benchmark": "grunt benchmark",
+    "test": "mocha"
+  },
+  "devDependencies": {
+    "chai": "~1.5.0",
+    "grunt": "~0.4.1",
+    "grunt-benchmark": "~0.2.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-jshint": "~0.4.3",
+    "grunt-contrib-uglify": "~0.2.0",
+    "grunt-mocha-test": "~0.2.2",
+    "grunt-npm-install": "~0.1.0",
+    "load-grunt-tasks": "~0.6.0",
+    "lodash": "^4.0.1",
+    "mocha": "~1.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hiddentao/fast-levenshtein.git"
   },
   "keywords": [
-    "json cache",
-    "simple cache",
-    "file cache",
-    "key par",
-    "key value",
-    "cache"
+    "levenshtein",
+    "distance",
+    "string"
   ],
-  "devDependencies": {
-    "c8": "^9.1.0",
-    "chai": "^4.3.10",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-mocha": "^10.2.0",
-    "glob-expand": "^0.2.1",
-    "mocha": "^10.3.0",
-    "prettier": "^3.2.4",
-    "rimraf": "^5.0.5",
-    "sinon": "^17.0.1",
-    "write": "^2.0.0"
-  },
-  "dependencies": {
-    "flatted": "^3.2.9",
-    "keyv": "^4.5.4"
-  }
+  "author": "Ramesh Nair <ram@hiddentao.com> (http://www.hiddentao.com/)",
+  "license": "MIT"
 }
